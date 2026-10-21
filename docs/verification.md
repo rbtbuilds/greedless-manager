@@ -27,6 +27,8 @@ The full Swift test run executed 5,158 tests: **5,124 passed, 34 skipped, zero f
 
 The first full run exposed two failed assertions in one window-close test. Its synthetic fixture queued an asynchronous layout refresh that ran during the test's deliberate suspension. Resetting that pending fixture work isolated the intended close/rebind behavior. The isolated reproduction and full suite then passed; production behavior and assertions were unchanged.
 
+The first hosted build passed compilation and localization, then exposed an inherited canary-notes test that rejected `c1` anywhere in the output, including inside a valid commit hash. A fixed-date fixture reproduced the failure locally. The test now compares the exact changelog subjects, preserving the requirement to exclude the previous release commit without depending on hash contents. The full 113-test tooling suite passed after that correction.
+
 The 34 skips were explicit:
 
 - 13 Nushell and 2 Fish checks: those shells are not installed.
