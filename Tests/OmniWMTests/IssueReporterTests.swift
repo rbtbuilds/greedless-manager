@@ -42,7 +42,9 @@ final class IssueReporterTests: XCTestCase {
     }
 
     func testSubmissionEncodesSpacesAndPlus() {
-        let builder = GitHubIssueURLBuilder(appVersion: "1.0", osVersion: "26.0")
+        let builder = GitHubIssueURLBuilder(
+            appVersion: "1.0", osVersion: "26.0", newIssueURLString: "https://example.com/issues/new"
+        )
         guard case let .url(url) = builder.submission(title: "Bug report", body: "Crash in C++ now") else {
             return XCTFail("expected a url submission")
         }
@@ -53,7 +55,9 @@ final class IssueReporterTests: XCTestCase {
     }
 
     func testLongBodyFallsBackToClipboard() {
-        let builder = GitHubIssueURLBuilder(appVersion: "1.0", osVersion: "26.0", maxURLLength: 60)
+        let builder = GitHubIssueURLBuilder(
+            appVersion: "1.0", osVersion: "26.0", newIssueURLString: "https://example.com/issues/new", maxURLLength: 60
+        )
         let long = String(repeating: "x", count: 500)
         guard case let .clipboard(markdown, fallbackURL) = builder.submission(title: "Bug", body: long) else {
             return XCTFail("expected a clipboard submission")
@@ -77,6 +81,35 @@ final class IssueReporterTests: XCTestCase {
         XCTAssertNil(model.polishedBody)
         XCTAssertEqual(model.phase, .editing)
         XCTAssertNil(model.errorMessage)
+    }
+
+    func testDefaultForkReportCopiesTitleAndBodyWithoutOpeningBrowser() async {
+        var opened: [URL] = []
+        var copied: [String] = []
+        let model = ReportIssueViewModel(
+            engine: FakeIssueEngine(),
+            openURL: { opened.append($0) },
+            copyToClipboard: { copied.append($0) }
+        )
+        model.title = "A window moved"
+        model.actual = "The editor moved to the next display."
+        await model.submit()
+        XCTAssertEqual(model.phase, .submitted(.copiedToClipboard))
+        XCTAssertTrue(opened.isEmpty)
+        XCTAssertEqual(copied.count, 1)
+        XCTAssertTrue(copied[0].hasPrefix("# A window moved\n"))
+        XCTAssertTrue(copied[0].contains(model.actual))
+        XCTAssertTrue(copied[0].contains("Greedless Manager version:"))
+    }
+
+    func testDefaultForkReportKeepsLongReportsLocal() {
+        let builder = GitHubIssueURLBuilder(appVersion: "0.1.0", osVersion: "26.0", maxURLLength: 1)
+        let body = String(repeating: "Details\n", count: 1000)
+        guard case let .copyOnly(markdown) = builder.submission(title: "Bug", body: body) else {
+            return XCTFail("A fork without a report destination must only copy reports")
+        }
+        XCTAssertTrue(markdown.contains(body.trimmingCharacters(in: .whitespacesAndNewlines)))
+        XCTAssertTrue(markdown.contains("Based on OmniWM v0.7.6"))
     }
 
     func testApplyRewriteSetsTitleAndPolishedBody() async {
@@ -261,7 +294,9 @@ final class IssueReporterTests: XCTestCase {
     func testSubmitLongBodyCopiesToClipboard() async {
         var opened: [URL] = []
         var copied: [String] = []
-        let builder = GitHubIssueURLBuilder(appVersion: "1.0", osVersion: "26.0", maxURLLength: 60)
+        let builder = GitHubIssueURLBuilder(
+            appVersion: "1.0", osVersion: "26.0", newIssueURLString: "https://example.com/issues/new", maxURLLength: 60
+        )
         let model = makeModel(
             engine: FakeIssueEngine(),
             urlBuilder: builder,
@@ -552,7 +587,9 @@ final class IssueReporterTests: XCTestCase {
 
     private func makeModel(
         engine: any IssueRewriting,
-        urlBuilder: GitHubIssueURLBuilder = GitHubIssueURLBuilder(appVersion: "1.0", osVersion: "26.0"),
+        urlBuilder: GitHubIssueURLBuilder = GitHubIssueURLBuilder(
+            appVersion: "1.0", osVersion: "26.0", newIssueURLString: "https://example.com/issues/new"
+        ),
         prepareDiagnosticAttachment: @MainActor @escaping (IssueDiagnosticEvidence?) async throws
             -> DiagnosticAttachmentResult = { _ in
                 throw IssueReportError.unavailable

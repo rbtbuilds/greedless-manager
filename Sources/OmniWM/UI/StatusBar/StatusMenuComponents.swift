@@ -6,7 +6,7 @@ import SwiftUI
 
 struct MenuHeader: View {
     private var appVersion: String {
-        Bundle.main.appVersion ?? "0.3.1"
+        Bundle.main.appVersion ?? "0.1.0"
     }
 
     var body: some View {
@@ -17,7 +17,7 @@ struct MenuHeader: View {
                 .frame(width: 36, height: 36)
             VStack(alignment: .leading, spacing: 2) {
                 HStack(spacing: 6) {
-                    Text("OmniWM")
+                    Text("Greedless Manager")
                         .font(.system(size: 15, weight: .semibold))
                         .foregroundStyle(Color(nsColor: .labelColor))
                     Circle()

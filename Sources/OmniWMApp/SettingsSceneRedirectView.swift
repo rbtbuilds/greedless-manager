@@ -25,6 +25,7 @@ struct SettingsSceneRedirectView: View {
             }
         )
         .onAppear {
+            didRedirect = false
             redirectIfPossible()
         }
         .onChange(of: bootstrap.isReady) { _, _ in
@@ -56,7 +57,8 @@ struct SettingsSceneRedirectView: View {
 
     private func redirectIfPossible() {
         guard !didRedirect,
-              bootstrap.isReady
+              bootstrap.isReady,
+              let window
         else { return }
 
         didRedirect = true

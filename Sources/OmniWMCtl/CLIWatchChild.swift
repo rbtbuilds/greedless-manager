@@ -186,11 +186,11 @@ enum CLIWatchChild {
 
         switch result.terminationReason {
         case .exit:
-            message = "omniwmctl watch: child exited with status \(result.terminationStatus): \(commandText)\n"
+            message = "greedlessctl watch: child exited with status \(result.terminationStatus): \(commandText)\n"
         case .uncaughtSignal:
-            message = "omniwmctl watch: child terminated by signal \(result.terminationStatus): \(commandText)\n"
+            message = "greedlessctl watch: child terminated by signal \(result.terminationStatus): \(commandText)\n"
         case .unknown:
-            message = "omniwmctl watch: child terminated unexpectedly: \(commandText)\n"
+            message = "greedlessctl watch: child terminated unexpectedly: \(commandText)\n"
         }
 
         FileHandle.standardError.write(Data(message.utf8))

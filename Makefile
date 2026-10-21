@@ -1,4 +1,4 @@
-.PHONY: setup doctor format format-check lint lint-fix build localization-check localization-sync run dev-install use-dev use-release test-dev-tools energy-profile test-skylight-live release-check verify check check-tool-versions check-swiftformat-version check-swiftlint-version
+.PHONY: setup doctor format format-check lint lint-fix build localization-check localization-sync app run dev-install use-dev use-release test-dev-tools energy-profile test-skylight-live release-check verify check check-tool-versions check-swiftformat-version check-swiftlint-version
 
 include Scripts/dev-tools.env
 
@@ -45,16 +45,19 @@ localization-check: build
 localization-sync: build
 	python3 Scripts/localization.py sync
 
-run: dev-install
+app:
+	./Scripts/package-app.sh debug dev
 
-dev-install:
-	./Scripts/omniwm-dev.sh install
+run: app
+	open "$(CURDIR)/dist/Greedless Manager.app"
+
+dev-install: run
 
 use-dev:
-	./Scripts/omniwm-dev.sh use dev
+	@echo "use-dev is unavailable in this fork; use 'make app' or 'make run'." >&2; exit 1
 
 use-release:
-	./Scripts/omniwm-dev.sh use release
+	@echo "use-release is unavailable in this fork; use 'make app' or 'make run'." >&2; exit 1
 
 test-dev-tools:
 	python3 -m unittest discover -s Tests/DevToolingTests

@@ -117,7 +117,7 @@ final class WorkspaceMoveIPCContractTests: XCTestCase {
         ]
 
         for invocation in invocations {
-            XCTAssertThrowsError(try CLIParser.parse(arguments: ["omniwmctl"] + invocation)) { error in
+            XCTAssertThrowsError(try CLIParser.parse(arguments: ["greedlessctl"] + invocation)) { error in
                 XCTAssertEqual(error as? CLIParseError, .usage(CLIParser.usageText))
             }
         }
@@ -126,7 +126,7 @@ final class WorkspaceMoveIPCContractTests: XCTestCase {
     func testHelpAndCompletionsExposeWorkspaceMoveContract() {
         XCTAssertTrue(
             CLIParser.usageText.contains(
-                "omniwmctl workspace move-to-monitor <workspace> <left|right|up|down> [--force]"
+                "greedlessctl workspace move-to-monitor <workspace> <left|right|up|down> [--force]"
             )
         )
 
@@ -208,14 +208,14 @@ final class WorkspaceMoveIPCContractTests: XCTestCase {
         ]
 
         for invocation in invocations {
-            XCTAssertThrowsError(try CLIParser.parse(arguments: ["omniwmctl"] + invocation)) { error in
+            XCTAssertThrowsError(try CLIParser.parse(arguments: ["greedlessctl"] + invocation)) { error in
                 XCTAssertEqual(error as? CLIParseError, .usage(CLIParser.usageText))
             }
         }
     }
 
     func testHelpAndCompletionsExposeWorkspaceRenameContract() {
-        XCTAssertTrue(CLIParser.usageText.contains("omniwmctl workspace rename <workspace> <display-name>"))
+        XCTAssertTrue(CLIParser.usageText.contains("greedlessctl workspace rename <workspace> <display-name>"))
 
         for shell in CLIShell.allCases {
             XCTAssertTrue(CLICompletionGenerator.script(for: shell).contains("rename"))
@@ -335,7 +335,7 @@ final class WorkspaceMoveIPCContractTests: XCTestCase {
     }
 
     private func parseWorkspaceRequest(_ arguments: [String]) throws -> IPCWorkspaceRequest {
-        let parsed = try CLIParser.parse(arguments: ["omniwmctl"] + arguments)
+        let parsed = try CLIParser.parse(arguments: ["greedlessctl"] + arguments)
         guard case let .workspace(request) = parsed.request.payload else {
             throw TestFailure.unexpectedPayload
         }
@@ -348,7 +348,7 @@ final class WorkspaceMoveIPCContractTests: XCTestCase {
 
     private func shellCompletions(shell: CLIShell, arguments: String) throws -> [String] {
         let argumentCount = arguments.split(separator: " ").count
-        let words = "omniwmctl \(arguments) ''"
+        let words = "greedlessctl \(arguments) ''"
         let generatedScript = CLICompletionGenerator.script(for: shell)
         let script: String
         let executable: String
@@ -374,7 +374,7 @@ final class WorkspaceMoveIPCContractTests: XCTestCase {
             \(generatedScript)
             COMP_WORDS=(\(words))
             COMP_CWORD=\(argumentCount + 1)
-            _omniwmctl
+            _greedlessctl
             printf '%s\\n' "${COMPREPLY[@]}"
             """
         case .fish:
@@ -384,10 +384,10 @@ final class WorkspaceMoveIPCContractTests: XCTestCase {
             executable = fishExecutable
             script = """
             \(generatedScript)
-            complete -C "omniwmctl \(arguments) "
+            complete -C "greedlessctl \(arguments) "
             """
         case .nu:
-            return try NuCompletionTestSupport.completions("omniwmctl \(arguments) ")
+            return try NuCompletionTestSupport.completions("greedlessctl \(arguments) ")
         }
 
         let process = Process()

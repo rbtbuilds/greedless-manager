@@ -73,7 +73,7 @@ struct GeneralSettingsTab: View {
                         Text(AppLanguagePreference.nativeName(for: language)).tag(String?.some(language))
                     }
                 }
-                SettingsCaption(localized: "Language changes take effect after you restart OmniWM.")
+                SettingsCaption(localized: "Language changes take effect after you restart Greedless Manager.")
             }
 
             Section("Appearance") {
@@ -99,7 +99,10 @@ struct GeneralSettingsTab: View {
                 SettingsCaption(
                     controller.motionPolicy.systemReducesMotion
                         ? String(localized: "Off while macOS Reduce Motion is on.")
-                        : String(localized: "Turns OmniWM-authored animations on or off live without relaunching.")
+                        :
+                        String(
+                            localized: "Turns Greedless Manager-authored animations on or off live without relaunching."
+                        )
                 )
 
                 SettingsSliderRow(
@@ -159,25 +162,18 @@ struct GeneralSettingsTab: View {
                         LoginItemManager.openLoginItemsSettings()
                     }
                     SettingsCaption(
-                        localized: "macOS needs your approval before OmniWM can start at login. Approve it under System Settings > General > Login Items."
+                        localized: "macOS needs your approval before Greedless Manager can start at login. Approve it under System Settings > General > Login Items."
                     )
                 }
                 if let loginItemError = loginItems.lastErrorDescription {
                     SettingsCaption(localized: "Could not update the login item: \(loginItemError)")
                 }
-                SettingsCaption(localized: "Launches OmniWM automatically when you log in.")
+                SettingsCaption(localized: "Launches Greedless Manager automatically when you log in.")
             }
 
             Section("Updates") {
-                Toggle("Check for Updates Automatically", isOn: $settings.updateChecksEnabled)
-
-                Button("Check for Updates...") {
-                    updateCoordinator?.checkForUpdatesManually()
-                }
-                .disabled(updateCoordinator == nil)
-
                 SettingsCaption(
-                    localized: "OmniWM checks the latest GitHub release once per day on launch. Updates stay manual and the popup includes both the GitHub page and the Homebrew command."
+                    localized: "This Greedless Manager build is updated from source. Automatic update checks are unavailable."
                 )
             }
 
@@ -278,7 +274,7 @@ struct GeneralSettingsTab: View {
                         localized: "Overrides selected global outer-margin values for \(monitor.name). \(topGapCaption(settings.gaps.settings(for: monitor)?.outerGapTop ?? settings.gaps.outerGapTop, on: monitor))"
                     ))
                     SettingsCaption(
-                        localized: "Keeps these margins for OmniWM Full Screen and the Single Window ‘Full Screen’ fit. Any active Workspace Bar reservation is also kept; native macOS Full Screen is unchanged."
+                        localized: "Keeps these margins for Greedless Manager Full Screen and the Single Window ‘Full Screen’ fit. Any active Workspace Bar reservation is also kept; native macOS Full Screen is unchanged."
                     )
                 } else {
                     SettingsSliderRow(
@@ -333,7 +329,7 @@ struct GeneralSettingsTab: View {
                     }
 
                     SettingsCaption(
-                        localized: "Keeps these margins for OmniWM Full Screen and the Single Window ‘Full Screen’ fit. Any active Workspace Bar reservation is also kept; native macOS Full Screen is unchanged."
+                        localized: "Keeps these margins for Greedless Manager Full Screen and the Single Window ‘Full Screen’ fit. Any active Workspace Bar reservation is also kept; native macOS Full Screen is unchanged."
                     )
                 }
             }

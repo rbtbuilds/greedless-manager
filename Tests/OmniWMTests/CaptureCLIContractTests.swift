@@ -16,7 +16,7 @@ final class CaptureCLIContractTests: XCTestCase {
         ]
 
         for (arguments, expected) in cases {
-            let parsed = try CLIParser.parse(arguments: ["omniwmctl"] + arguments)
+            let parsed = try CLIParser.parse(arguments: ["greedlessctl"] + arguments)
             guard case let .capture(request) = parsed.request.payload else {
                 return XCTFail("Expected capture request for \(arguments)")
             }
@@ -39,16 +39,16 @@ final class CaptureCLIContractTests: XCTestCase {
         ]
 
         for arguments in invalidArguments {
-            XCTAssertThrowsError(try CLIParser.parse(arguments: ["omniwmctl"] + arguments)) { error in
+            XCTAssertThrowsError(try CLIParser.parse(arguments: ["greedlessctl"] + arguments)) { error in
                 XCTAssertEqual(error as? CLIParseError, .usage(CLIParser.usageText))
             }
         }
     }
 
     func testHelpAndCompletionsExposeCaptureContract() {
-        XCTAssertTrue(CLIParser.usageText.contains("omniwmctl capture start <trace|performance>"))
-        XCTAssertTrue(CLIParser.usageText.contains("omniwmctl capture stop"))
-        XCTAssertTrue(CLIParser.usageText.contains("omniwmctl capture status"))
+        XCTAssertTrue(CLIParser.usageText.contains("greedlessctl capture start <trace|performance>"))
+        XCTAssertTrue(CLIParser.usageText.contains("greedlessctl capture stop"))
+        XCTAssertTrue(CLIParser.usageText.contains("greedlessctl capture status"))
 
         for shell in CLIShell.allCases {
             let script = CLICompletionGenerator.script(for: shell)
@@ -59,8 +59,8 @@ final class CaptureCLIContractTests: XCTestCase {
                 XCTAssertTrue(script.contains("suggestions=\"performance trace\""))
             case .bash:
                 XCTAssertTrue(script.contains("capture)\n      if [[ ${COMP_CWORD} -eq 2 ]]"))
-                XCTAssertTrue(script.contains("__omniwmctl_compgen \"start status stop\""))
-                XCTAssertTrue(script.contains("__omniwmctl_compgen \"performance trace\""))
+                XCTAssertTrue(script.contains("__greedlessctl_compgen \"start status stop\""))
+                XCTAssertTrue(script.contains("__greedlessctl_compgen \"performance trace\""))
             case .fish:
                 XCTAssertTrue(script.contains("__fish_seen_subcommand_from capture"))
                 XCTAssertTrue(script.contains("__fish_seen_subcommand_from performance trace' -a 'trace'"))

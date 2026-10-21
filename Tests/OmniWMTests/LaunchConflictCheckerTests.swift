@@ -114,6 +114,7 @@ final class LaunchConflictCheckerTests: XCTestCase {
             "bobrwm-cli",
             "bobrwm-swipe",
             "omniwmctl",
+            "greedlessctl",
             "Hammerspoon",
             "PaperWM",
             "skhd",
@@ -132,6 +133,8 @@ final class LaunchConflictCheckerTests: XCTestCase {
         let bundleIdentifiers = [
             "COM.BARUT.OMNIWM",
             "com.barut.OmniWM.helper",
+            "ORG.GREEDLESS.MANAGER",
+            "org.greedless.manager.helper",
             "prefix.bobko.aerospace",
             "com.amethyst.Amethyst.beta",
             "dev.guria.nehirctl",
@@ -210,6 +213,48 @@ final class LaunchConflictCheckerTests: XCTestCase {
         )
 
         XCTAssertEqual(checker.scan(), .clear)
+    }
+
+    func testScanExcludesCurrentForkButBlocksOtherForkOrUpstreamBundle() {
+        for currentBundleIdentifier in ["org.greedless.manager", "org.greedless.manager.dev"] {
+            for otherBundleIdentifier in [
+                "org.greedless.manager",
+                "org.greedless.manager.dev",
+                "com.barut.OmniWM",
+                "com.barut.OmniWM.dev"
+            ] {
+                let checker = LaunchConflictChecker(
+                    environment: .init(
+                        applicationSnapshots: {
+                            [
+                                self.snapshot(pid: 711, bundleIdentifier: currentBundleIdentifier),
+                                self.snapshot(pid: 712, bundleIdentifier: otherBundleIdentifier)
+                            ]
+                        },
+                        processSnapshots: { _ in [] },
+                        currentPID: { 711 }
+                    )
+                )
+
+                XCTAssertEqual(checker.scan(), .blocked(.conflicts([.omniWM])), otherBundleIdentifier)
+            }
+        }
+    }
+
+    func testScanIsClearWhenOnlyCurrentForkBundleMatches() {
+        for bundleIdentifier in ["org.greedless.manager", "org.greedless.manager.dev"] {
+            let checker = LaunchConflictChecker(
+                environment: .init(
+                    applicationSnapshots: {
+                        [self.snapshot(pid: 721, bundleIdentifier: bundleIdentifier)]
+                    },
+                    processSnapshots: { _ in [] },
+                    currentPID: { 721 }
+                )
+            )
+
+            XCTAssertEqual(checker.scan(), .clear, bundleIdentifier)
+        }
     }
 
     func testScanFailsClosedWhenProcessInventoryFails() {

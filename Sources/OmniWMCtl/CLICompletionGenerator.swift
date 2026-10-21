@@ -92,7 +92,7 @@ enum CLICompletionGenerator {
             "queryFieldLines": fishCases(
                 Catalog.queryFieldsByName,
                 when: query,
-                suffix: "; and __omniwmctl_prev_arg_is --fields"
+                suffix: "; and __greedlessctl_prev_arg_is --fields"
             ),
             "commandRootLines": fishCompletions(Catalog.commandFirstWords, when: command),
             "commandNestedLines": fishCases(Catalog.commandSlotThreeSuggestionsByFirst, when: command),
@@ -115,7 +115,7 @@ enum CLICompletionGenerator {
             "workspaceLines": fishChoiceCompletions(Catalog.workspaceActionNames, when: workspace),
             "workspaceMoveDirectionLines": fishCompletions(
                 Catalog.workspaceMoveDirections,
-                when: "\(moveWorkspace); and __omniwmctl_workspace_positionals_are 1"
+                when: "\(moveWorkspace); and __greedlessctl_workspace_positionals_are 1"
             ),
             "workspaceMoveFlagLines": fishWorkspaceMoveFlags(when: moveWorkspace),
             "windowLines": fishCompletions(Catalog.windowActionNames, when: "__fish_seen_subcommand_from window"),
@@ -129,7 +129,7 @@ enum CLICompletionGenerator {
     }
 
     private static func fishCompletion(_ token: String, when condition: String) -> String {
-        "complete -c omniwmctl -f -n '\(condition)' -a '\(token)'"
+        "complete -c greedlessctl -f -n '\(condition)' -a '\(token)'"
     }
 
     private static func fishCompletions(_ tokens: [String], when condition: String) -> String {
@@ -175,7 +175,7 @@ enum CLICompletionGenerator {
         Catalog.workspaceMoveOptionalFlags.map { flag in
             fishCompletion(
                 flag,
-                when: "\(condition); and __omniwmctl_workspace_positionals_at_most 2; and not __omniwmctl_has_arg \(flag)"
+                when: "\(condition); and __greedlessctl_workspace_positionals_at_most 2; and not __greedlessctl_has_arg \(flag)"
             )
         }
         .joined(separator: "\n")

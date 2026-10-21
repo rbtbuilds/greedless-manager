@@ -1,4 +1,4 @@
-const omniwmctl_catalog = {
+const greedlessctl_catalog = {
     topLevelCommands: #{{topLevelCommands}}
     queryNames: #{{queryNames}}
     queryFieldsByName: #{{queryFieldsByName}}
@@ -27,8 +27,8 @@ const omniwmctl_catalog = {
     flagValuesByName: #{{flagValuesByName}}
 }
 
-def omniwmctl_choices [words: list<string>] {
-    let catalog = $omniwmctl_catalog
+def greedlessctl_choices [words: list<string>] {
+    let catalog = $greedlessctl_catalog
     let count = ($words | length)
     let action = ($words | get -o 1 | default "")
     if $count == 0 { return $catalog.topLevelCommands }
@@ -85,8 +85,8 @@ def omniwmctl_choices [words: list<string>] {
     }
 }
 
-def "nu-complete omniwmctl" [spans: list<string>] {
-    let catalog = $omniwmctl_catalog
+def "nu-complete greedlessctl" [spans: list<string>] {
+    let catalog = $greedlessctl_catalog
     let prefix = ($spans | last | str trim --char '"' | str trim --char "'")
     mut words = []
     mut flags = []
@@ -114,7 +114,7 @@ def "nu-complete omniwmctl" [spans: list<string>] {
     } else if $value_flag != "" {
         $catalog.flagValuesByName | get -o $value_flag | default []
     } else {
-        omniwmctl_choices $words
+        greedlessctl_choices $words
     }
     if $value_flag == "" and ($prefix starts-with "--") {
         $choices = ($choices | append ["--format" "--json"])
@@ -131,5 +131,5 @@ def "nu-complete omniwmctl" [spans: list<string>] {
     $choices | where {|choice| $choice not-in $flags and ($choice starts-with $prefix) } | sort | uniq
 }
 
-@complete "nu-complete omniwmctl"
-export extern omniwmctl [...args: string]
+@complete "nu-complete greedlessctl"
+export extern greedlessctl [...args: string]

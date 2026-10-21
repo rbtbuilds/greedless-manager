@@ -84,7 +84,7 @@ struct CLISubscriptionSession {
                 )
             } catch let error where CLIRuntimeOutput.isTransportError(error) {
                 connections.closeCurrent()
-                CLIRuntimeOutput.writeNotice("omniwmctl: reconnect failed: \(error)")
+                CLIRuntimeOutput.writeNotice("greedlessctl: reconnect failed: \(error)")
             }
         }
     }

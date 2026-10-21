@@ -34,17 +34,17 @@ final class CloseWindowCommandTests: XCTestCase {
     }
 
     func testParserBuildsWindowCloseRequest() throws {
-        let parsed = try CLIParser.parse(arguments: ["omniwmctl", "window", "close", "ow_x"])
+        let parsed = try CLIParser.parse(arguments: ["greedlessctl", "window", "close", "ow_x"])
         guard case let .window(request) = parsed.request.payload else {
             return XCTFail("expected a window payload")
         }
         XCTAssertEqual(request, IPCWindowRequest(name: .close, windowId: "ow_x"))
-        XCTAssertThrowsError(try CLIParser.parse(arguments: ["omniwmctl", "window", "close"]))
-        XCTAssertThrowsError(try CLIParser.parse(arguments: ["omniwmctl", "window", "close", "ow_x", "extra"]))
+        XCTAssertThrowsError(try CLIParser.parse(arguments: ["greedlessctl", "window", "close"]))
+        XCTAssertThrowsError(try CLIParser.parse(arguments: ["greedlessctl", "window", "close", "ow_x", "extra"]))
     }
 
     func testHelpAndCompletionsExposeWindowClose() {
-        XCTAssertTrue(CLIParser.usageText.contains("omniwmctl window close <opaque-id>"))
+        XCTAssertTrue(CLIParser.usageText.contains("greedlessctl window close <opaque-id>"))
         XCTAssertTrue(CLIParser.usageText.contains("close-focused-window"))
         for shell in CLIShell.allCases {
             let script = CLICompletionGenerator.script(for: shell)

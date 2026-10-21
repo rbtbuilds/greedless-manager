@@ -29,7 +29,7 @@ enum ConflictingWindowManager: CaseIterable, Equatable {
     var displayName: String {
         switch self {
         case .omniWM:
-            "Another OmniWM instance"
+            "OmniWM or another Greedless Manager instance"
         case .aeroSpace:
             "AeroSpace"
         case .amethyst:
@@ -62,7 +62,7 @@ enum ConflictingWindowManager: CaseIterable, Equatable {
     var bundleIdentifiers: [String] {
         switch self {
         case .omniWM:
-            ["com.barut.OmniWM"]
+            ["com.barut.OmniWM", "com.barut.OmniWM.dev", "org.greedless.manager", "org.greedless.manager.dev"]
         case .aeroSpace:
             ["bobko.aerospace", "bobko.aerospace.debug"]
         case .amethyst:

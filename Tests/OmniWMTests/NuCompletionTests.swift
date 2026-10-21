@@ -36,9 +36,9 @@ final class NuCompletionTests: XCTestCase {
 
     func testModuleImportsOnlyTheExternalCommand() throws {
         let output = try NuCompletionTestSupport.run(
-            "scope commands | where name =~ 'omniwmctl' | get name | to json"
+            "scope commands | where name =~ 'greedlessctl' | get name | to json"
         )
-        XCTAssertEqual(try JSONDecoder().decode([String].self, from: output), ["omniwmctl"])
+        XCTAssertEqual(try JSONDecoder().decode([String].self, from: output), ["greedlessctl"])
     }
 
     func testGeneratedStringLiteralsPreserveSpecialCharacters() throws {
@@ -52,17 +52,17 @@ final class NuCompletionTests: XCTestCase {
 
     func testTopLevelAndActionFamiliesUseCatalogChoices() throws {
         let cases: [(String, [String])] = [
-            ("omniwmctl ", CLICompletionCatalog.topLevelCommands),
-            ("omniwmctl query ", CLICompletionCatalog.queryNames),
-            ("omniwmctl command ", CLICompletionCatalog.commandFirstWords),
-            ("omniwmctl rule ", CLICompletionCatalog.ruleActionNames),
-            ("omniwmctl capture ", CLICompletionCatalog.captureActionNames),
-            ("omniwmctl workspace ", CLICompletionCatalog.workspaceActionNames),
-            ("omniwmctl window ", CLICompletionCatalog.windowActionNames),
-            ("omniwmctl window mark ", CLICompletionCatalog.windowMarkActionNames),
-            ("omniwmctl window mark list ", CLICompletionCatalog.windowMarkListFlags),
-            ("omniwmctl completion ", CLIShell.allCases.map(\.rawValue)),
-            ("omniwmctl que", ["query"])
+            ("greedlessctl ", CLICompletionCatalog.topLevelCommands),
+            ("greedlessctl query ", CLICompletionCatalog.queryNames),
+            ("greedlessctl command ", CLICompletionCatalog.commandFirstWords),
+            ("greedlessctl rule ", CLICompletionCatalog.ruleActionNames),
+            ("greedlessctl capture ", CLICompletionCatalog.captureActionNames),
+            ("greedlessctl workspace ", CLICompletionCatalog.workspaceActionNames),
+            ("greedlessctl window ", CLICompletionCatalog.windowActionNames),
+            ("greedlessctl window mark ", CLICompletionCatalog.windowMarkActionNames),
+            ("greedlessctl window mark list ", CLICompletionCatalog.windowMarkListFlags),
+            ("greedlessctl completion ", CLIShell.allCases.map(\.rawValue)),
+            ("greedlessctl que", ["query"])
         ]
         for (input, expected) in cases {
             try assertCompletions(input, expected)
@@ -70,22 +70,22 @@ final class NuCompletionTests: XCTestCase {
     }
 
     func testWindowMarkActionAndListFlagCompletions() throws {
-        try assertCompletions("omniwmctl window mark ", CLICompletionCatalog.windowMarkActionNames)
-        try assertCompletions("omniwmctl window mark list ", CLICompletionCatalog.windowMarkListFlags)
-        try assertCompletions("omniwmctl window mark set saved ", [])
+        try assertCompletions("greedlessctl window mark ", CLICompletionCatalog.windowMarkActionNames)
+        try assertCompletions("greedlessctl window mark list ", CLICompletionCatalog.windowMarkListFlags)
+        try assertCompletions("greedlessctl window mark set saved ", [])
     }
 
     func testNestedCommandsAndLiteralArguments() throws {
         let cases: [(String, [String])] = [
-            ("omniwmctl command focus ", ["left", "right", "up", "down", "previous", "down-or-left", "up-or-right"]),
-            ("omniwmctl command scratchpad ", ["assign", "toggle"]),
-            ("omniwmctl command scratchpad assign ", (1 ... 10).map(String.init)),
-            ("omniwmctl command scratchpad toggle ", (1 ... 10).map(String.init)),
-            ("omniwmctl command move-to-monitor ", ["left", "right", "up", "down"]),
-            ("omniwmctl command resize ", ["horizontal", "vertical"]),
-            ("omniwmctl command resize horizontal ", ["grow", "shrink"]),
-            ("omniwmctl capture start ", ["trace", "performance"]),
-            ("omniwmctl command resize vertical sh", ["shrink"])
+            ("greedlessctl command focus ", ["left", "right", "up", "down", "previous", "down-or-left", "up-or-right"]),
+            ("greedlessctl command scratchpad ", ["assign", "toggle"]),
+            ("greedlessctl command scratchpad assign ", (1 ... 10).map(String.init)),
+            ("greedlessctl command scratchpad toggle ", (1 ... 10).map(String.init)),
+            ("greedlessctl command move-to-monitor ", ["left", "right", "up", "down"]),
+            ("greedlessctl command resize ", ["horizontal", "vertical"]),
+            ("greedlessctl command resize horizontal ", ["grow", "shrink"]),
+            ("greedlessctl capture start ", ["trace", "performance"]),
+            ("greedlessctl command resize vertical sh", ["shrink"])
         ]
         for (input, expected) in cases {
             try assertCompletions(input, expected)
@@ -94,43 +94,43 @@ final class NuCompletionTests: XCTestCase {
             $0.arguments.first?.kind == .layout
         })
         try assertCompletions(
-            "omniwmctl command \(layout.commandWords.joined(separator: " ")) ",
+            "greedlessctl command \(layout.commandWords.joined(separator: " ")) ",
             ["default", "niri", "dwindle"]
         )
     }
 
     func testQuerySpecificFlagsAndFields() throws {
-        try assertCompletions("omniwmctl query windows ", CLICompletionCatalog.queryFlagsByName["windows"] ?? [])
-        try assertCompletions("omniwmctl query displays --fields ", IPCAutomationManifest.displayFieldCatalog)
-        try assertCompletions("omniwmctl query workspaces --fields display-n", ["display-name"])
-        try assertCompletions("omniwmctl query windows --fields id,ti", ["id,title"])
+        try assertCompletions("greedlessctl query windows ", CLICompletionCatalog.queryFlagsByName["windows"] ?? [])
+        try assertCompletions("greedlessctl query displays --fields ", IPCAutomationManifest.displayFieldCatalog)
+        try assertCompletions("greedlessctl query workspaces --fields display-n", ["display-name"])
+        try assertCompletions("greedlessctl query windows --fields id,ti", ["id,title"])
         let remaining = IPCAutomationManifest.windowFieldCatalog.filter { $0 != "id" }.map { "id,\($0)" }
-        try assertCompletions("omniwmctl query windows --fields id,", remaining)
+        try assertCompletions("greedlessctl query windows --fields id,", remaining)
     }
 
     func testRulesAndSubscriptionChoices() throws {
-        try assertCompletions("omniwmctl rule add ", CLICompletionCatalog.ruleDefinitionFlags)
-        try assertCompletions("omniwmctl rule apply ", CLICompletionCatalog.ruleApplyFlags)
-        try assertCompletions("omniwmctl subscribe ", CLICompletionCatalog.subscribeTokens)
-        try assertCompletions("omniwmctl watch ", CLICompletionCatalog.watchTokens)
-        try assertCompletions("omniwmctl subscribe focus,work", ["focus,workspace-bar"])
+        try assertCompletions("greedlessctl rule add ", CLICompletionCatalog.ruleDefinitionFlags)
+        try assertCompletions("greedlessctl rule apply ", CLICompletionCatalog.ruleApplyFlags)
+        try assertCompletions("greedlessctl subscribe ", CLICompletionCatalog.subscribeTokens)
+        try assertCompletions("greedlessctl watch ", CLICompletionCatalog.watchTokens)
+        try assertCompletions("greedlessctl subscribe focus,work", ["focus,workspace-bar"])
         let channels = IPCSubscriptionChannel.allCases.filter { $0 != .focus }.map { "focus,\($0.rawValue)" }
-        try assertCompletions("omniwmctl watch focus,", channels)
+        try assertCompletions("greedlessctl watch focus,", channels)
     }
 
     func testGlobalAndValueTakingFlagsPreserveArgumentPositions() throws {
         let cases: [(String, [String])] = [
-            ("omniwmctl --json command resize horizontal ", ["grow", "shrink"]),
-            ("omniwmctl command --format json resize horizontal ", ["grow", "shrink"]),
-            ("omniwmctl command resize horizontal --format text ", ["grow", "shrink"]),
-            ("omniwmctl query windows --format ", ["json", "ndjson", "table", "tsv", "text"]),
-            ("omniwmctl --for", ["--format"]),
-            ("omniwmctl query windows --app ", []),
-            ("omniwmctl rule add --title-substring ", []),
-            ("omniwmctl rule add --layout ", ["auto", "tile", "float"]),
-            ("omniwmctl rule add --layout fl", ["float"]),
-            ("omniwmctl rule apply --pid ", []),
-            ("omniwmctl query windows --app 'Visual Studio Code' --fields ti", ["title"])
+            ("greedlessctl --json command resize horizontal ", ["grow", "shrink"]),
+            ("greedlessctl command --format json resize horizontal ", ["grow", "shrink"]),
+            ("greedlessctl command resize horizontal --format text ", ["grow", "shrink"]),
+            ("greedlessctl query windows --format ", ["json", "ndjson", "table", "tsv", "text"]),
+            ("greedlessctl --for", ["--format"]),
+            ("greedlessctl query windows --app ", []),
+            ("greedlessctl rule add --title-substring ", []),
+            ("greedlessctl rule add --layout ", ["auto", "tile", "float"]),
+            ("greedlessctl rule add --layout fl", ["float"]),
+            ("greedlessctl rule apply --pid ", []),
+            ("greedlessctl query windows --app 'Visual Studio Code' --fields ti", ["title"])
         ]
         for (input, expected) in cases {
             try assertCompletions(input, expected)
@@ -139,23 +139,23 @@ final class NuCompletionTests: XCTestCase {
 
     func testQuotedWorkspaceTargetsCountAsOneArgument() throws {
         try assertCompletions(
-            "omniwmctl workspace move-to-monitor 'Design Space' ",
+            "greedlessctl workspace move-to-monitor 'Design Space' ",
             ["left", "right", "up", "down", "--force"]
         )
         try assertCompletions(
-            "omniwmctl workspace move-to-monitor \"Design Space\" --force --format json ",
+            "greedlessctl workspace move-to-monitor \"Design Space\" --force --format json ",
             ["left", "right", "up", "down"]
         )
     }
 
     func testFreeArgumentsAndWatchChildrenDoNotGetOmniWMCompletions() throws {
         for input in [
-            "omniwmctl window focus ",
-            "omniwmctl workspace focus-name ",
-            "omniwmctl command focus-column 3 ",
-            "omniwmctl watch focus --exec ",
-            "omniwmctl watch focus --exec nu --format ",
-            "omniwmctl watch focus --exec nu --json "
+            "greedlessctl window focus ",
+            "greedlessctl workspace focus-name ",
+            "greedlessctl command focus-column 3 ",
+            "greedlessctl watch focus --exec ",
+            "greedlessctl watch focus --exec nu --format ",
+            "greedlessctl watch focus --exec nu --json "
         ] {
             try assertCompletions(input, [])
         }
@@ -164,15 +164,15 @@ final class NuCompletionTests: XCTestCase {
     func testImportedCommandPreservesExternalArguments() throws {
         let cases: [(String, [String])] = [
             (
-                "omniwmctl workspace rename 'Design Space' '' --format json",
+                "greedlessctl workspace rename 'Design Space' '' --format json",
                 ["workspace", "rename", "Design Space", "", "--format", "json"]
             ),
             (
-                "omniwmctl watch focus --exec nu -c 'print \"a b\"' --format json",
+                "greedlessctl watch focus --exec nu -c 'print \"a b\"' --format json",
                 ["watch", "focus", "--exec", "nu", "-c", "print \"a b\"", "--format", "json"]
             ),
             (
-                "omniwmctl command set-window-primary-span '-10%' --json",
+                "greedlessctl command set-window-primary-span '-10%' --json",
                 ["command", "set-window-primary-span", "-10%", "--json"]
             )
         ]
@@ -194,7 +194,7 @@ final class NuCompletionTests: XCTestCase {
                 XCTFail("Completion generation must not wait for a connection")
             }
         )
-        let result = await CLIRuntime.run(arguments: ["omniwmctl", "completion", "nu"], environment: environment)
+        let result = await CLIRuntime.run(arguments: ["greedlessctl", "completion", "nu"], environment: environment)
         XCTAssertEqual(result, CLIExitCode.success.rawValue)
     }
 

@@ -19,7 +19,7 @@ struct IssueWalkthroughCard: View {
             icon: "record.circle",
             title: String(localized: "Record a trace"),
             detail: String(
-                localized: "Click \"Record a Trace\" below, then reproduce the bug so OmniWM captures what happened."
+                localized: "Click \"Record a Trace\" below, then reproduce the bug so Greedless Manager captures what happened."
             )
         ),
         Step(
@@ -38,10 +38,10 @@ struct IssueWalkthroughCard: View {
         ),
         Step(
             id: 4,
-            icon: "paperplane",
-            title: String(localized: "Submit"),
+            icon: "doc.on.clipboard",
+            title: String(localized: "Copy Report"),
             detail: String(
-                localized: "OmniWM creates one fresh diagnostic log with any evidence you selected, then opens GitHub."
+                localized: "Greedless Manager prepares a diagnostic log and copies your report. Review both before sharing."
             )
         )
     ]

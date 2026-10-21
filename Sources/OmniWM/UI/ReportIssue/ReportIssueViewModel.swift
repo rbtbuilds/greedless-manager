@@ -202,6 +202,9 @@ final class ReportIssueViewModel {
             lastAttachmentError = error.localizedDescription
         }
         switch urlBuilder.submission(title: submittedTitle, body: submittedBody) {
+        case let .copyOnly(markdown):
+            copyToClipboard(markdown)
+            phase = .submitted(.copiedToClipboard)
         case let .url(url):
             openURL(url)
             phase = .submitted(.openedBrowser)
@@ -230,7 +233,7 @@ final class ReportIssueViewModel {
         else { return }
         title = "Crash: \(report.reason)"
         category = .crash
-        actual = "OmniWM recovered from a crash (log: \(report.url.lastPathComponent)).\n\nReason: \(report.reason)"
+        actual = "Greedless Manager recovered from a crash (log: \(report.url.lastPathComponent)).\n\nReason: \(report.reason)"
         selectEvidence(evidence)
     }
 

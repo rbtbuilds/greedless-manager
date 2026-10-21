@@ -27,7 +27,7 @@ final class SettingsWindowController {
         }
 
         presenter.present(
-            title: String(localized: "OmniWM Settings"),
+            title: String(localized: "Greedless Manager Settings"),
             styleMask: [.titled, .closable, .miniaturizable, .resizable],
             contentSize: NSSize(width: 900, height: 680),
             minSize: NSSize(width: 760, height: 560)

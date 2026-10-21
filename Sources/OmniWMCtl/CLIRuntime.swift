@@ -91,7 +91,7 @@ enum CLIRuntime {
                         where parsed.reconnect && CLIRuntimeOutput.isTransportError(error) && !Task.isCancelled
                     {
                         connections.closeCurrent()
-                        CLIRuntimeOutput.writeNotice("omniwmctl: connection lost: \(error); reconnecting")
+                        CLIRuntimeOutput.writeNotice("greedlessctl: connection lost: \(error); reconnecting")
                         session = try await CLISubscriptionSession.reconnect(
                             requestID: request.id,
                             subscription: subscription,
@@ -102,7 +102,7 @@ enum CLIRuntime {
                             CLIRenderer.write(try CLIRenderer.responseOutput(session.response, format: outputFormat))
                             return CLIRenderer.exitCode(for: session.response).rawValue
                         }
-                        CLIRuntimeOutput.writeNotice("omniwmctl: reconnected")
+                        CLIRuntimeOutput.writeNotice("greedlessctl: reconnected")
                     }
                 }
             } catch {

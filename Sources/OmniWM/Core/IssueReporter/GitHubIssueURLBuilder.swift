@@ -5,11 +5,12 @@ import Foundation
 
 struct GitHubIssueURLBuilder {
     enum Submission: Equatable {
+        case copyOnly(markdown: String)
         case url(URL)
         case clipboard(markdown: String, fallbackURL: URL)
     }
 
-    var newIssueURLString: String
+    var newIssueURLString: String?
     var maxURLLength: Int
     var appVersion: String
     var osVersion: String
@@ -17,7 +18,7 @@ struct GitHubIssueURLBuilder {
     init(
         appVersion: String = Bundle.main.appVersion ?? "unknown",
         osVersion: String = ProcessInfo.processInfo.operatingSystemVersionString,
-        newIssueURLString: String = "https://github.com/OmniNull/OmniWM/issues/new",
+        newIssueURLString: String? = nil,
         maxURLLength: Int = 8000
     ) {
         self.appVersion = appVersion
@@ -29,7 +30,8 @@ struct GitHubIssueURLBuilder {
     func environmentBlock() -> String {
         """
         ## Environment
-        - OmniWM version: \(appVersion)
+        - Greedless Manager version: \(appVersion)
+        - Based on OmniWM v0.7.6
         - macOS version: \(osVersion)
         """
     }
@@ -41,6 +43,9 @@ struct GitHubIssueURLBuilder {
 
     func submission(title: String, body: String) -> Submission {
         let fullBody = composedBody(body)
+        guard let newIssueURLString else {
+            return .copyOnly(markdown: "# \(title)\n\n\(fullBody)")
+        }
         if let url = issueURL(title: title, body: fullBody), url.absoluteString.count <= maxURLLength {
             return .url(url)
         }
@@ -51,7 +56,9 @@ struct GitHubIssueURLBuilder {
     }
 
     private func issueURL(title: String, body: String?) -> URL? {
-        guard var components = URLComponents(string: newIssueURLString) else {
+        guard let newIssueURLString,
+              var components = URLComponents(string: newIssueURLString)
+        else {
             return nil
         }
         var items = [URLQueryItem(name: "title", value: title)]

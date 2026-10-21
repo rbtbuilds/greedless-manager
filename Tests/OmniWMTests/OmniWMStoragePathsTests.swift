@@ -9,10 +9,11 @@ final class OmniWMStoragePathsTests: XCTestCase {
     func testOnlySupportedDevBundleUsesDevDirectories() {
         let home = URL(fileURLWithPath: "/Users/contributor", isDirectory: true)
         let cases: [(String?, String)] = [
-            (nil, "omniwm"),
-            ("com.barut.OmniWM", "omniwm"),
-            ("com.example.Other.dev", "omniwm"),
-            ("com.barut.OmniWM.dev", "omniwm-dev")
+            (nil, "greedless-manager"),
+            ("org.greedless.manager", "greedless-manager"),
+            ("com.example.Other.dev", "greedless-manager"),
+            ("com.barut.OmniWM.dev", "greedless-manager"),
+            ("org.greedless.manager.dev", "greedless-manager-dev")
         ]
 
         for (bundleIdentifier, directory) in cases {
@@ -28,7 +29,10 @@ final class OmniWMStoragePathsTests: XCTestCase {
     }
 
     func testAbsoluteXDGOverridesKeepReleaseAndDevSeparate() {
-        for (bundleIdentifier, directory) in [("com.barut.OmniWM", "omniwm"), ("com.barut.OmniWM.dev", "omniwm-dev")] {
+        for (bundleIdentifier, directory) in [
+            ("org.greedless.manager", "greedless-manager"),
+            ("org.greedless.manager.dev", "greedless-manager-dev")
+        ] {
             let paths = OmniWMStoragePaths.resolve(
                 environment: ["XDG_CONFIG_HOME": "/custom/config/", "XDG_STATE_HOME": "/custom/state/"],
                 homeDirectory: URL(fileURLWithPath: "/Users/contributor", isDirectory: true),
@@ -41,7 +45,7 @@ final class OmniWMStoragePathsTests: XCTestCase {
     }
 
     func testInvalidXDGOverridesUseDefaultBaseDirectories() {
-        for bundleIdentifier in ["com.barut.OmniWM", "com.barut.OmniWM.dev"] {
+        for bundleIdentifier in ["org.greedless.manager", "org.greedless.manager.dev"] {
             for invalidPath in ["", "relative/path", "~/custom"] {
                 let home = URL(fileURLWithPath: "/Users/contributor", isDirectory: true)
                 let paths = OmniWMStoragePaths.resolve(
@@ -69,7 +73,7 @@ final class OmniWMStoragePathsTests: XCTestCase {
         let devPaths = OmniWMStoragePaths.resolve(
             environment: [:],
             homeDirectory: home,
-            bundleIdentifier: "com.barut.OmniWM.dev"
+            bundleIdentifier: "org.greedless.manager.dev"
         )
         let releaseSettings = SettingsFilePersistence(
             directory: releasePaths.configDirectory, startWatching: false, deferSaves: false

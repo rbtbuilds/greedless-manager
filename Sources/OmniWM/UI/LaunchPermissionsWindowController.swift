@@ -40,11 +40,11 @@ enum LaunchPermissionKind: CaseIterable, Identifiable {
         switch self {
         case .accessibility:
             String(
-                localized: "Lets OmniWM inspect, focus, move, and resize windows. Window management cannot start without it."
+                localized: "Lets Greedless Manager inspect, focus, move, and resize windows. Window management cannot start without it."
             )
         case .inputMonitoring:
             String(
-                localized: "Lets OmniWM receive global keyboard, mouse, and trackpad input. Window management cannot start without it."
+                localized: "Lets Greedless Manager receive global keyboard, mouse, and trackpad input. Window management cannot start without it."
             )
         case .screenRecording:
             String(
@@ -130,7 +130,7 @@ final class LaunchPermissionsModel {
 
     var primaryActionTitle: String {
         snapshot.screenRecordingGranted
-            ? String(localized: "Start OmniWM")
+            ? String(localized: "Start Greedless Manager")
             : String(localized: "Continue Without Screen Recording")
     }
 
@@ -175,7 +175,7 @@ final class LaunchPermissionsWindowController {
         quitAction = onQuit
         model.refresh()
         presenter.present(
-            title: String(localized: "OmniWM Permissions"),
+            title: String(localized: "Greedless Manager Permissions"),
             styleMask: [.titled, .resizable],
             contentSize: NSSize(width: 640, height: 500),
             minSize: NSSize(width: 640, height: 500),
@@ -224,10 +224,10 @@ struct LaunchPermissionsView: View {
     var body: some View {
         VStack(spacing: 0) {
             VStack(alignment: .leading, spacing: 8) {
-                Label("OmniWM Permissions", systemImage: "checkmark.shield")
+                Label("Greedless Manager Permissions", systemImage: "checkmark.shield")
                     .font(.title2.bold())
                     .accessibilityHeading(.h1)
-                Text("Grant the required permissions to start OmniWM. Screen Recording is optional.")
+                Text("Grant the required permissions to start Greedless Manager. Screen Recording is optional.")
                     .foregroundStyle(.secondary)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -251,7 +251,7 @@ struct LaunchPermissionsView: View {
             Divider()
 
             HStack(spacing: 12) {
-                Button("Quit OmniWM", action: onQuit)
+                Button("Quit Greedless Manager", action: onQuit)
                 Spacer()
                 Button("Check Again", action: model.refresh)
                 Button(model.primaryActionTitle, action: onStart)

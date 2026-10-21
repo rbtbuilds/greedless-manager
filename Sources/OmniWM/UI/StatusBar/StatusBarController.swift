@@ -64,8 +64,10 @@ final class StatusBarController: NSObject {
         model.ipcMenuEnabled = cliManager != nil
         model.cliManager = cliManager
         model.updateCoordinator = updateCoordinator
-        model.checkForUpdatesAction = { [weak self] in
-            self?.updateCoordinator?.checkForUpdatesManually()
+        if updateCoordinator != nil {
+            model.checkForUpdatesAction = { [weak self] in
+                self?.updateCoordinator?.checkForUpdatesManually()
+            }
         }
         let host = StatusMenuHost(model: model, controller: controller)
         host.isExemptWindow = { [weak hiddenBarController] in
@@ -139,11 +141,11 @@ final class StatusBarController: NSObject {
             let config = NSImage.SymbolConfiguration(paletteColors: [.systemRed])
             button.image = NSImage(
                 systemSymbolName: "record.circle.fill",
-                accessibilityDescription: String(localized: "OmniWM, recording diagnostics")
+                accessibilityDescription: String(localized: "Greedless Manager, recording diagnostics")
             )?.withSymbolConfiguration(config)
             button.image?.isTemplate = false
             button.contentTintColor = nil
-            button.toolTip = String(localized: "OmniWM — recording diagnostics (auto-stops in 10 min)")
+            button.toolTip = String(localized: "Greedless Manager — recording diagnostics (auto-stops in 10 min)")
             applyRecordingPulse(to: button)
         } else if controller?.traceCaptureStatus.profile == .performance {
             button.layer?.removeAnimation(forKey: recordingPulseKey)
@@ -151,16 +153,16 @@ final class StatusBarController: NSObject {
             let config = NSImage.SymbolConfiguration(paletteColors: [.systemBlue])
             button.image = NSImage(
                 systemSymbolName: "gauge.with.dots.needle.67percent",
-                accessibilityDescription: String(localized: "OmniWM, measuring performance")
+                accessibilityDescription: String(localized: "Greedless Manager, measuring performance")
             )?.withSymbolConfiguration(config)
             button.image?.isTemplate = false
             button.contentTintColor = nil
-            button.toolTip = String(localized: "OmniWM — measuring performance (auto-stops in 10 min)")
+            button.toolTip = String(localized: "Greedless Manager — measuring performance (auto-stops in 10 min)")
         } else if controller?.isSecureInputIndicated == true {
             button.layer?.removeAnimation(forKey: recordingPulseKey)
             button.layer?.opacity = 1
             button.image = OmniWMBrandMark.secureInputStatusImage(pointSize: 18, tint: .labelColor)
-            button.image?.accessibilityDescription = String(localized: "OmniWM, Secure Input is on")
+            button.image?.accessibilityDescription = String(localized: "Greedless Manager, Secure Input is on")
             button.contentTintColor = nil
             button.toolTip = String(localized: "Secure Input is on: Option shortcuts are paused")
         } else {
@@ -234,7 +236,7 @@ final class StatusBarController: NSObject {
             settings.statusBar.useWorkspaceId ? $0.workspaceRawName : $0.workspaceLabel
         }
         let focusedAppName = settings.statusBar.showAppNames ? summary?.focusedAppName : nil
-        button.setAccessibilityLabel("OmniWM")
+        button.setAccessibilityLabel("Greedless Manager")
         button.setAccessibilityValue(
             Self.statusButtonAccessibilityValue(
                 workspaceLabel: workspaceLabel,
@@ -243,7 +245,7 @@ final class StatusBarController: NSObject {
                 isSecureInputActive: controller?.isSecureInputIndicated == true
             )
         )
-        button.setAccessibilityHelp(String(localized: "Press to open OmniWM controls."))
+        button.setAccessibilityHelp(String(localized: "Press to open Greedless Manager controls."))
     }
 
     func refreshWorkspaces() {

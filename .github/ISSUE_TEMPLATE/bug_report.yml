@@ -1,15 +1,14 @@
 name: Bug Report
-description: Report a bug in OmniWM
+description: Report a bug in Greedless Manager
 title: "[Bug]: "
 labels: ["bug"]
 body:
   - type: markdown
     attributes:
       value: |
-        **Tip:** the easiest way to file a great report is from inside OmniWM — open the status-bar menu and choose **Report a Bug…**. It creates and reveals a diagnostics bundle for you to attach, and walks you through recording a trace first.
-        <!-- video guide placeholder: add link once recorded -->
+        **Tip:** the easiest way to file a great report is from inside Greedless Manager — open the status-bar menu and choose **Report a Bug…**. It prepares a report to copy locally. Review it for private information before pasting it here.
 
-        Prefer the web form? Continue below. Please first search the existing [open and closed issues](https://github.com/OmniNull/OmniWM/issues?q=is%3Aissue) to avoid duplicates, and make sure you're on the latest OmniWM version.
+        Prefer the web form? Continue below. Please first search the existing [open and closed issues](https://github.com/rbtbuilds/greedless-manager/issues?q=is%3Aissue) to avoid duplicates, and make sure you're on the latest Greedless Manager version.
   - type: dropdown
     id: issue-type
     attributes:
@@ -30,7 +29,7 @@ body:
     id: actual
     attributes:
       label: What happened? (actual behavior)
-      description: Describe the bug — what OmniWM actually did.
+      description: Describe the bug — what Greedless Manager actually did.
       placeholder: |
         When I move a window to the second display, it snaps back to the first one after about a second.
     validations:
@@ -39,7 +38,7 @@ body:
     id: expected
     attributes:
       label: What did you expect?
-      description: Describe what you expected OmniWM to do instead.
+      description: Describe what you expected Greedless Manager to do instead.
       placeholder: |
         The window stays on the second display where I moved it.
     validations:
@@ -65,10 +64,10 @@ body:
     validations:
       required: false
   - type: input
-    id: omniwm-version
+    id: greedless-version
     attributes:
-      label: OmniWM version
-      description: Shown in the status-bar menu (e.g. v0.5.1). For a canary build, paste its release link.
+      label: Greedless Manager version
+      description: Shown in the status-bar menu (e.g. 0.1.0). For a source build, include the commit hash.
     validations:
       required: true
   - type: input
@@ -100,7 +99,7 @@ body:
     attributes:
       label: Diagnostics log (strongly recommended)
       description: |
-        The single most useful thing you can attach. In OmniWM: open **Settings → Troubleshooting** and click **Start Recording**, reproduce the bug, then click **Stop & Save Recording**. Drag the resulting `omniwm-trace-*.log` file into this box to upload it.
+        The single most useful thing you can attach. In Greedless Manager: open **Settings → Troubleshooting** and click **Start Recording**, reproduce the bug, then click **Stop & Save Recording**. Drag the resulting `omniwm-trace-*.log` file into this box to upload it.
     validations:
       required: false
   - type: textarea
@@ -117,10 +116,10 @@ body:
       options:
         - label: I searched existing open and closed issues and confirmed this isn't a duplicate.
           required: true
-        - label: I'm on a recent OmniWM version and the issue still occurs.
+        - label: I'm on a recent Greedless Manager version and the issue still occurs.
           required: true
   - type: markdown
     attributes:
       value: |
         ---
-        OmniWM is free and open source. If you find it useful, starring the repo helps others discover it — entirely optional and unrelated to how your issue is handled.
+        Greedless Manager is free and open source. If you find it useful, starring the repo helps others discover it — entirely optional and unrelated to how your issue is handled.

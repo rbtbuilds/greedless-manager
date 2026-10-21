@@ -21,7 +21,7 @@ enum NuCompletionTestSupport {
 
         let module = directory.appendingPathComponent("completions.nu")
         try CLICompletionGenerator.script(for: .nu).write(to: module, atomically: true, encoding: .utf8)
-        let fixture = directory.appendingPathComponent("omniwmctl")
+        let fixture = directory.appendingPathComponent("greedlessctl")
         try "#!/bin/sh\n/usr/bin/printf '%s\\0' \"$@\"\n"
             .write(to: fixture, atomically: true, encoding: .utf8)
         try FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: fixture.path)
@@ -30,7 +30,7 @@ enum NuCompletionTestSupport {
         let output = Pipe()
         let errors = Pipe()
         process.executableURL = URL(fileURLWithPath: executable)
-        process.arguments = ["-n", "-c", "use \(try literal(module.path)) omniwmctl; \(body)"]
+        process.arguments = ["-n", "-c", "use \(try literal(module.path)) greedlessctl; \(body)"]
         process.currentDirectoryURL = directory
         process.environment = ProcessInfo.processInfo.environment.merging(["PATH": "\(directory.path):\(path)"]) {
             _, replacement in replacement

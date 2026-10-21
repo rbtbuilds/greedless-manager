@@ -1,18 +1,18 @@
-complete -c omniwmctl -f
+complete -c greedlessctl -f
 
-function __omniwmctl_prev_arg_is
+function __greedlessctl_prev_arg_is
     set -l tokens (commandline -opc)
     test (count $tokens) -gt 0; or return 1
     set -l prev $tokens[-1]
     contains -- $prev $argv
 end
 
-function __omniwmctl_has_arg
+function __greedlessctl_has_arg
     set -l tokens (commandline -opc)
     contains -- $argv[1] $tokens
 end
 
-function __omniwmctl_workspace_positionals
+function __greedlessctl_workspace_positionals
     set -l count 0
     set -l action_seen false
     set -l skip_format_value false
@@ -32,12 +32,12 @@ function __omniwmctl_workspace_positionals
     echo $count
 end
 
-function __omniwmctl_workspace_positionals_are
-    test (__omniwmctl_workspace_positionals) -eq "$argv[1]"
+function __greedlessctl_workspace_positionals_are
+    test (__greedlessctl_workspace_positionals) -eq "$argv[1]"
 end
 
-function __omniwmctl_workspace_positionals_at_most
-    test (__omniwmctl_workspace_positionals) -le "$argv[1]"
+function __greedlessctl_workspace_positionals_at_most
+    test (__greedlessctl_workspace_positionals) -le "$argv[1]"
 end
 #{{baseLines}}
 #{{queryLines}}

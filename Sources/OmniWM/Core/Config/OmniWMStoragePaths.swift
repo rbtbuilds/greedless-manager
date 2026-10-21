@@ -21,7 +21,7 @@ struct OmniWMStoragePaths: Equatable {
         bundleIdentifier: String? = nil
     ) -> OmniWMStoragePaths {
         let homeDirectory = homeDirectory.standardizedFileURL
-        let directoryName = bundleIdentifier == "com.barut.OmniWM.dev" ? "omniwm-dev" : "omniwm"
+        let directoryName = bundleIdentifier == "org.greedless.manager.dev" ? "greedless-manager-dev" : "greedless-manager"
         return OmniWMStoragePaths(
             configDirectory: directory(
                 environmentKey: "XDG_CONFIG_HOME",

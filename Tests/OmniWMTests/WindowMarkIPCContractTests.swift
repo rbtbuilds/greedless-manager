@@ -66,7 +66,7 @@ final class WindowMarkIPCContractTests: XCTestCase {
             XCTAssertEqual(try parseWindowMark(testCase.arguments), testCase.request)
         }
 
-        let parsed = try CLIParser.parse(arguments: ["omniwmctl", "window", "mark", "list", "--json"])
+        let parsed = try CLIParser.parse(arguments: ["greedlessctl", "window", "mark", "list", "--json"])
         XCTAssertEqual(parsed.outputFormat, .json)
         guard case .windowMark(.list) = parsed.request.payload else {
             throw TestFailure.unexpectedPayload
@@ -84,7 +84,7 @@ final class WindowMarkIPCContractTests: XCTestCase {
         ]
 
         for invocation in invocations {
-            XCTAssertThrowsError(try CLIParser.parse(arguments: ["omniwmctl"] + invocation)) { error in
+            XCTAssertThrowsError(try CLIParser.parse(arguments: ["greedlessctl"] + invocation)) { error in
                 XCTAssertEqual(error as? CLIParseError, .usage(CLIParser.usageText))
             }
         }
@@ -101,7 +101,7 @@ final class WindowMarkIPCContractTests: XCTestCase {
                 "window mark remove <name>"
             ]
         )
-        XCTAssertTrue(CLIParser.usageText.contains("omniwmctl window mark list [--json]"))
+        XCTAssertTrue(CLIParser.usageText.contains("greedlessctl window mark list [--json]"))
 
         for shell in CLIShell.allCases {
             let script = CLICompletionGenerator.script(for: shell)
@@ -147,7 +147,7 @@ final class WindowMarkIPCContractTests: XCTestCase {
     }
 
     private func parseWindowMark(_ arguments: [String]) throws -> IPCWindowMarkRequest {
-        let parsed = try CLIParser.parse(arguments: ["omniwmctl"] + arguments)
+        let parsed = try CLIParser.parse(arguments: ["greedlessctl"] + arguments)
         guard case let .windowMark(request) = parsed.request.payload else {
             throw TestFailure.unexpectedPayload
         }

@@ -104,7 +104,7 @@ struct ReportIssueSettingsTab: View {
                     .textFieldStyle(.roundedBorder)
             }
             SettingsCaption(
-                localized: "OmniWM version, macOS, your settings, and explicitly selected evidence are included in the diagnostic log — no need to type them."
+                localized: "Greedless Manager version, macOS, your settings, and explicitly selected evidence are included in the diagnostic log — no need to type them."
             )
         }
     }
@@ -162,10 +162,10 @@ struct ReportIssueSettingsTab: View {
                 localized: "A fresh diagnostic snapshot is always prepared. Explicitly selected crash or trace evidence is appended to that same .log."
             )
             SettingsCaption(
-                localized: "Diagnostic logs may include OmniWM settings, app and window titles, and title-based rule matchers. Review the .log in Finder before attaching it to a public GitHub issue."
+                localized: "Diagnostic logs may include Greedless Manager settings, app and window titles, and title-based rule matchers. Review the .log in Finder before attaching it to a public GitHub issue."
             )
             HStack {
-                Button("Submit to GitHub") { Task { await model.submit() } }
+                Button("Copy Report") { Task { await model.submit() } }
                     .buttonStyle(.borderedProminent)
                     .disabled(!model.canSubmit || controller.traceCaptureStatus.phase != .idle)
                 if model.phase == .submitting {
@@ -195,7 +195,7 @@ struct ReportIssueSettingsTab: View {
                 SettingsCaption(hint)
             }
             SettingsCaption(
-                localized: "Opens a pre-filled new-issue page in your browser; you review and post it with your own GitHub account. OmniWM never sees your GitHub login."
+                localized: "Copies your report to the clipboard. Nothing is sent; review the diagnostic log before sharing it."
             )
             draftFooter
         }
@@ -241,7 +241,7 @@ struct ReportIssueSettingsTab: View {
                 .foregroundStyle(.green)
             case .copiedToClipboard:
                 Label(
-                    "The issue was too long for a link, so it was copied to your clipboard. Paste it into the GitHub page that just opened.",
+                    "Report copied to your clipboard. Nothing was sent.",
                     systemImage: "doc.on.clipboard"
                 )
                 .foregroundStyle(.secondary)
@@ -255,7 +255,7 @@ struct ReportIssueSettingsTab: View {
     private var attachmentStatus: some View {
         if let url = model.lastAttachment {
             Label(
-                "Diagnostic log revealed in Finder — drag \(url.lastPathComponent) into the issue to attach it.",
+                "Diagnostic log revealed in Finder: \(url.lastPathComponent). Review it before sharing.",
                 systemImage: "paperclip"
             )
             .font(.caption)
@@ -265,7 +265,7 @@ struct ReportIssueSettingsTab: View {
         }
         if let attachmentError = model.lastAttachmentError {
             Label(
-                "Couldn't prepare the diagnostic log: \(attachmentError). Your issue still opened.",
+                "Couldn't prepare the diagnostic log: \(attachmentError). Your report was still copied.",
                 systemImage: "exclamationmark.triangle.fill"
             )
             .font(.caption)

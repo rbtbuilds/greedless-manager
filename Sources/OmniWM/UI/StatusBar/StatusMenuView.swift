@@ -221,11 +221,7 @@ struct StatusMenuFooterView: View {
     var body: some View {
         VStack(spacing: 0) {
             MenuDivider()
-            MenuActionRow(icon: "sparkles", label: String(localized: "Omni Sponsors")) {
-                model.openSponsors()
-            }
-            MenuDivider()
-            MenuActionRow(icon: "power", label: String(localized: "Quit OmniWM"), isDestructive: true) {
+            MenuActionRow(icon: "power", label: String(localized: "Quit Greedless Manager"), isDestructive: true) {
                 model.quit()
             }
         }
@@ -357,14 +353,15 @@ struct StatusMenuHelpLinksView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            MenuActionRow(icon: "link", label: String(localized: "GitHub"), isExternal: true) {
+            Text("Greedless Manager is a GPL-2.0-only fork of OmniWM v0.7.6.")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .padding(12)
+            MenuActionRow(icon: "link", label: String(localized: "OmniWM Source & Credits"), isExternal: true) {
                 open("https://github.com/OmniNull/OmniWM")
             }
-            MenuActionRow(icon: "heart", label: String(localized: "Sponsor on GitHub"), isExternal: true) {
+            MenuActionRow(icon: "heart", label: String(localized: "Support OmniWM's Author"), isExternal: true) {
                 open("https://github.com/sponsors/BarutSRB")
-            }
-            MenuActionRow(icon: "heart", label: String(localized: "Sponsor on PayPal"), isExternal: true) {
-                open("https://paypal.me/beacon2024")
             }
         }
     }

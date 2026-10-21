@@ -68,7 +68,7 @@ final class MoveWindowToMonitorIPCCommandTests: XCTestCase {
     func testCLIParserBuildsDirectionalMonitorMoveRequests() throws {
         for direction in directions {
             let parsed = try CLIParser.parse(
-                arguments: ["omniwmctl", "command", "move-to-monitor", direction.rawValue]
+                arguments: ["greedlessctl", "command", "move-to-monitor", direction.rawValue]
             )
             guard case let .command(request) = parsed.request.payload else {
                 return XCTFail("Expected command request")
@@ -80,11 +80,11 @@ final class MoveWindowToMonitorIPCCommandTests: XCTestCase {
 
     func testCLIRejectsMissingOrInvalidDirection() {
         XCTAssertThrowsError(
-            try CLIParser.parse(arguments: ["omniwmctl", "command", "move-to-monitor"])
+            try CLIParser.parse(arguments: ["greedlessctl", "command", "move-to-monitor"])
         )
         XCTAssertThrowsError(
             try CLIParser.parse(
-                arguments: ["omniwmctl", "command", "move-to-monitor", "diagonal"]
+                arguments: ["greedlessctl", "command", "move-to-monitor", "diagonal"]
             )
         )
     }
@@ -92,7 +92,7 @@ final class MoveWindowToMonitorIPCCommandTests: XCTestCase {
     func testHelpAndCompletionsExposeMonitorMove() {
         XCTAssertTrue(
             CLIParser.usageText.contains(
-                "omniwmctl command move-to-monitor <left|right|up|down>"
+                "greedlessctl command move-to-monitor <left|right|up|down>"
             )
         )
 

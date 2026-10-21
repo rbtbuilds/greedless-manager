@@ -130,6 +130,8 @@ final class WindowCloseFocusRecoveryTests: XCTestCase {
     func testClosedBorderStaysHiddenThroughReplacementAcknowledgementAndReturnsForNewIdentity() async throws {
         let fixture = try Self.makeFixture()
         let controller = fixture.controller
+        // Fixture setup queues a layout refresh against synthetic windows.
+        controller.layoutRefreshController.resetState()
         let handler = controller.axEventHandler
         var acknowledgement: CheckedContinuation<Bool, Never>?
         defer {

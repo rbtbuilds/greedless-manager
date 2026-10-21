@@ -117,7 +117,7 @@ enum CLIRenderer {
     static func transportErrorOutput(_ error: Error, format: CLIOutputFormat) throws -> CLIRenderedOutput {
         try localFailureOutput(
             code: .transportFailure,
-            message: "omniwmctl: \(error)",
+            message: "greedlessctl: \(error)",
             exitCode: .transportFailure,
             format: format
         )
@@ -126,7 +126,7 @@ enum CLIRenderer {
     static func internalErrorOutput(_ error: Error, format: CLIOutputFormat) throws -> CLIRenderedOutput {
         try localFailureOutput(
             code: .internalError,
-            message: "omniwmctl: \(error)",
+            message: "greedlessctl: \(error)",
             exitCode: .internalError,
             format: format
         )

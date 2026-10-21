@@ -302,25 +302,25 @@ enum CLIParser {
 
         var lines = [
             "Usage:",
-            "  omniwmctl ping",
-            "  omniwmctl version",
-            "  omniwmctl help",
-            "  omniwmctl completion <\(CLIShell.allCases.map(\.rawValue).joined(separator: "|"))>"
+            "  greedlessctl ping",
+            "  greedlessctl version",
+            "  greedlessctl help",
+            "  greedlessctl completion <\(CLIShell.allCases.map(\.rawValue).joined(separator: "|"))>"
         ]
-        lines += commandLines.map { "  omniwmctl \($0)" }
-        lines += ruleLines.map { "  omniwmctl \($0)" }
-        lines += captureLines.map { "  omniwmctl \($0)" }
+        lines += commandLines.map { "  greedlessctl \($0)" }
+        lines += ruleLines.map { "  greedlessctl \($0)" }
+        lines += captureLines.map { "  greedlessctl \($0)" }
         lines += [
-            "  omniwmctl query <\(queryNames)> [selectors...] [--fields <csv>] [--format <json|ndjson|table|tsv|text>]"
+            "  greedlessctl query <\(queryNames)> [selectors...] [--fields <csv>] [--format <json|ndjson|table|tsv|text>]"
         ]
-        lines += workspaceLines.map { "  omniwmctl \($0)" }
-        lines += windowLines.map { "  omniwmctl \($0)" }
-        lines += windowMarkLines.map { "  omniwmctl \($0)" }
+        lines += workspaceLines.map { "  greedlessctl \($0)" }
+        lines += windowLines.map { "  greedlessctl \($0)" }
+        lines += windowMarkLines.map { "  greedlessctl \($0)" }
         lines += [
-            "  omniwmctl subscribe <\(subscriptionNames)> [--no-send-initial] [--reconnect] [--format json|ndjson]",
-            "  omniwmctl subscribe --all [--no-send-initial] [--reconnect] [--format json|ndjson]",
-            "  omniwmctl watch <\(subscriptionNames)> [--no-send-initial] [--reconnect] --exec <argv...>",
-            "  omniwmctl watch --all [--no-send-initial] [--reconnect] --exec <argv...>",
+            "  greedlessctl subscribe <\(subscriptionNames)> [--no-send-initial] [--reconnect] [--format json|ndjson]",
+            "  greedlessctl subscribe --all [--no-send-initial] [--reconnect] [--format json|ndjson]",
+            "  greedlessctl watch <\(subscriptionNames)> [--no-send-initial] [--reconnect] --exec <argv...>",
+            "  greedlessctl watch --all [--no-send-initial] [--reconnect] --exec <argv...>",
             "",
             "Formats:",
             "  --format json|ndjson|table|tsv|text",

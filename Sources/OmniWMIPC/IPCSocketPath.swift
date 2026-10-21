@@ -4,7 +4,7 @@
 import Foundation
 
 public enum IPCSocketPath {
-    public static let environmentKey = "OMNIWM_SOCKET"
+    public static let environmentKey = "GREEDLESS_SOCKET"
     public static let secretSuffix = ".secret"
 
     public static func resolvedPath(
@@ -15,7 +15,7 @@ public enum IPCSocketPath {
         }
 
         return URL.applicationSupportDirectory
-            .appendingPathComponent("com.barut.OmniWM", isDirectory: true)
+            .appendingPathComponent("org.greedless.manager", isDirectory: true)
             .appendingPathComponent("ipc.sock", isDirectory: false)
             .path
     }

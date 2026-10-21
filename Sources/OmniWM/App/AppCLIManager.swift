@@ -26,11 +26,11 @@ enum AppCLIInstallError: LocalizedError, Equatable {
     var errorDescription: String? {
         switch self {
         case let .bundledCLIMissing(url):
-            return "Bundled omniwmctl was not found at \(url.path). Reinstall OmniWM to restore the CLI."
+            return "Bundled greedlessctl was not found at \(url.path). Reinstall Greedless Manager to restore the CLI."
         case let .conflictingInstall(url):
-            return "Another file already exists at \(url.path). Move or remove it before installing OmniWM's CLI link."
+            return "Another file already exists at \(url.path). Move or remove it before installing Greedless Manager's CLI link."
         case let .cannotRemoveNonManagedInstall(url):
-            return "OmniWM will only remove the CLI link it created. The existing file at \(url.path) is managed elsewhere."
+            return "Greedless Manager will only remove the CLI link it created. The existing file at \(url.path) is managed elsewhere."
         }
     }
 }
@@ -49,8 +49,8 @@ final class AppCLIManager {
         homeDirectoryURLProvider: @escaping () -> URL = { FileManager.default.homeDirectoryForCurrentUser },
         homebrewLinkURLsProvider: @escaping () -> [URL] = {
             [
-                URL(fileURLWithPath: "/opt/homebrew/bin/omniwmctl"),
-                URL(fileURLWithPath: "/usr/local/bin/omniwmctl")
+                URL(fileURLWithPath: "/opt/homebrew/bin/greedlessctl"),
+                URL(fileURLWithPath: "/usr/local/bin/greedlessctl")
             ]
         }
     ) {
@@ -64,7 +64,7 @@ final class AppCLIManager {
     var bundledCLIURL: URL {
         bundleURLProvider()
             .appendingPathComponent("Contents/MacOS", isDirectory: true)
-            .appendingPathComponent("omniwmctl", isDirectory: false)
+            .appendingPathComponent("greedlessctl", isDirectory: false)
     }
 
     func exposureStatus() -> AppCLIExposureStatus {
@@ -133,7 +133,7 @@ final class AppCLIManager {
 
     private func preferredUserLinkURL() -> URL {
         preferredUserBinDirectory()
-            .appendingPathComponent("omniwmctl", isDirectory: false)
+            .appendingPathComponent("greedlessctl", isDirectory: false)
     }
 
     private func preferredUserBinDirectory() -> URL {

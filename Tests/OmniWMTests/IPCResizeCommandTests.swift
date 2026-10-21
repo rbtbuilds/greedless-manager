@@ -81,7 +81,7 @@ final class IPCResizeCommandTests: XCTestCase {
         for axis in axes {
             for operation in operations {
                 let parsed = try CLIParser.parse(
-                    arguments: ["omniwmctl", "command", "resize", axis.rawValue, operation.rawValue]
+                    arguments: ["greedlessctl", "command", "resize", axis.rawValue, operation.rawValue]
                 )
                 guard case let .command(request) = parsed.request.payload else {
                     return XCTFail("Expected command request")
@@ -108,7 +108,7 @@ final class IPCResizeCommandTests: XCTestCase {
 
         for arguments in invalidArguments {
             XCTAssertThrowsError(
-                try CLIParser.parse(arguments: ["omniwmctl", "command"] + arguments)
+                try CLIParser.parse(arguments: ["greedlessctl", "command"] + arguments)
             )
         }
     }
@@ -116,7 +116,7 @@ final class IPCResizeCommandTests: XCTestCase {
     func testHelpAndCompletionsExposeBothAxesAndOperations() {
         XCTAssertTrue(
             CLIParser.usageText.contains(
-                "omniwmctl command resize <horizontal|vertical> <grow|shrink>"
+                "greedlessctl command resize <horizontal|vertical> <grow|shrink>"
             )
         )
 

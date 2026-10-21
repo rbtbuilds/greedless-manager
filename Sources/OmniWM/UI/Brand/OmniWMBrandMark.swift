@@ -5,8 +5,8 @@ import AppKit
 
 @MainActor
 enum OmniWMBrandMark {
-    private static let statusTemplateSource = resourceImage(named: "OmniWMStatusTemplate", isTemplate: true)
-    private static let launchLockup = resourceImage(named: "OmniWMLaunchLockup", isTemplate: false)
+    private static let statusTemplateSource = resourceImage(named: "GreedlessStatusTemplate", isTemplate: true)
+    private static let launchLockup = resourceImage(named: "GreedlessLaunchLockup", isTemplate: false)
     private static var statusTemplates: [CGFloat: NSImage] = [:]
 
     static func statusItemImage(pointSize: CGFloat) -> NSImage {
@@ -15,7 +15,7 @@ enum OmniWMBrandMark {
             template = cached
         } else {
             guard let image = statusTemplateSource.copy() as? NSImage else {
-                fatalError("Unable to copy bundled brand resource OmniWMStatusTemplate.pdf")
+                fatalError("Unable to copy bundled brand resource GreedlessStatusTemplate.pdf")
             }
             image.size = NSSize(width: pointSize, height: pointSize)
             image.isTemplate = true
@@ -23,7 +23,7 @@ enum OmniWMBrandMark {
             template = image
         }
         guard let image = template.copy() as? NSImage else {
-            fatalError("Unable to copy bundled brand resource OmniWMStatusTemplate.pdf")
+            fatalError("Unable to copy bundled brand resource GreedlessStatusTemplate.pdf")
         }
         image.isTemplate = true
         return image
@@ -74,7 +74,7 @@ enum OmniWMBrandMark {
 
     static var launchLockupImage: NSImage {
         guard let image = launchLockup.copy() as? NSImage else {
-            fatalError("Unable to copy bundled brand resource OmniWMLaunchLockup.pdf")
+            fatalError("Unable to copy bundled brand resource GreedlessLaunchLockup.pdf")
         }
         return image
     }

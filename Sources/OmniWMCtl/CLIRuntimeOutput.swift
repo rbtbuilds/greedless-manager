@@ -44,7 +44,7 @@ enum CLIRuntimeOutput {
                 outputFormat: format,
                 code: .transportFailure,
                 exitCode: .transportFailure,
-                fallbackMessage: "omniwmctl: \(error)"
+                fallbackMessage: "greedlessctl: \(error)"
             )
             return CLIExitCode.transportFailure.rawValue
         }
@@ -57,7 +57,7 @@ enum CLIRuntimeOutput {
             outputFormat: format,
             code: .internalError,
             exitCode: .internalError,
-            fallbackMessage: "omniwmctl: \(error)"
+            fallbackMessage: "greedlessctl: \(error)"
         )
         return CLIExitCode.internalError.rawValue
     }

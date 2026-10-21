@@ -17,7 +17,7 @@ let package = Package(
             targets: ["OmniWMApp"]
         ),
         .executable(
-            name: "omniwmctl",
+            name: "greedlessctl",
             targets: ["OmniWMCtl"]
         )
     ],

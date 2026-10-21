@@ -13,8 +13,8 @@ final class CLICompletionTemplateTests: XCTestCase {
     func testZshMarkCompletionSuggestsActionsAndListFlags() throws {
         let script = CLICompletionGenerator.script(for: .zsh)
         for (words, position, expected) in [
-            ("omniwmctl window mark ''", 4, "set"),
-            ("omniwmctl window mark list ''", 5, "--json")
+            ("greedlessctl window mark ''", 4, "set"),
+            ("greedlessctl window mark list ''", 5, "--json")
         ] {
             let process = Process()
             let output = Pipe()

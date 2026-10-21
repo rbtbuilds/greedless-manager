@@ -63,7 +63,7 @@ final class LaunchPermissionsTests: XCTestCase {
 
         state.screenRecordingGranted = true
         model.refresh()
-        XCTAssertEqual(model.primaryActionTitle, "Start OmniWM")
+        XCTAssertEqual(model.primaryActionTitle, "Start Greedless Manager")
     }
 
     private func environment(_ state: State) -> LaunchPermissionEnvironment {

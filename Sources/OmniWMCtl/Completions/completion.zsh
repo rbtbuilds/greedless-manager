@@ -1,6 +1,6 @@
-#compdef omniwmctl
+#compdef greedlessctl
 
-_omniwmctl() {
+_greedlessctl() {
   local cur
   cur="${words[CURRENT]}"
 
@@ -128,4 +128,4 @@ _omniwmctl() {
   [[ -n "$suggestions" ]] && compadd -- ${=suggestions}
 }
 
-_omniwmctl "$@"
+_greedlessctl "$@"

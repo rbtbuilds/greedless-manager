@@ -428,12 +428,12 @@ final class StatusMenuModel {
         let directoryURL = linkURL.deletingLastPathComponent()
         var message =
             String(
-                localized: "OmniWM will create a symlink at \(linkURL.path) pointing to its bundled omniwmctl binary."
+                localized: "Greedless Manager will create a symlink at \(linkURL.path) pointing to its bundled greedlessctl binary."
             )
         if !directoryOnPath {
             message +=
                 String(
-                    localized: "\n\n\(directoryURL.path) is not currently in your PATH, so Terminal may not find `omniwmctl` until you add that directory."
+                    localized: "\n\n\(directoryURL.path) is not currently in your PATH, so Terminal may not find `greedlessctl` until you add that directory."
                 )
         }
 
@@ -459,7 +459,7 @@ final class StatusMenuModel {
         guard let cliManager else { return }
         guard confirmationAlertPresenter(
             String(localized: "Remove CLI from PATH?"),
-            String(localized: "OmniWM will remove the symlink it created for `omniwmctl`."),
+            String(localized: "Greedless Manager will remove the symlink it created for `greedlessctl`."),
             String(localized: "Remove"),
             String(localized: "Cancel")
         ) else {
@@ -480,18 +480,18 @@ final class StatusMenuModel {
         case let .installed(linkURL, directoryOnPath),
              let .alreadyInstalled(linkURL, directoryOnPath):
             let state = directoryOnPath
-                ? String(localized: "You can now run `omniwmctl` from Terminal.")
+                ? String(localized: "You can now run `greedlessctl` from Terminal.")
                 :
                 String(
-                    localized: "Add \(linkURL.deletingLastPathComponent().path) to PATH before using `omniwmctl` in Terminal."
+                    localized: "Add \(linkURL.deletingLastPathComponent().path) to PATH before using `greedlessctl` in Terminal."
                 )
             return "\(linkURL.path)\n\n\(state)"
         case let .homebrewManaged(linkURL):
-            return String(localized: "Homebrew already manages `omniwmctl` at \(linkURL.path).")
+            return String(localized: "Homebrew already manages `greedlessctl` at \(linkURL.path).")
         case let .notInstalled(linkURL):
-            return String(localized: "No OmniWM-managed CLI symlink was found at \(linkURL.path).")
+            return String(localized: "No Greedless Manager-managed CLI symlink was found at \(linkURL.path).")
         case let .removed(linkURL):
-            return String(localized: "Removed OmniWM's CLI symlink at \(linkURL.path).")
+            return String(localized: "Removed Greedless Manager's CLI symlink at \(linkURL.path).")
         }
     }
 }

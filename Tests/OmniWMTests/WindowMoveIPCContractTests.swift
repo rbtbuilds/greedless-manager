@@ -78,14 +78,14 @@ final class WindowMoveIPCContractTests: XCTestCase {
         ]
 
         for invocation in invocations {
-            XCTAssertThrowsError(try CLIParser.parse(arguments: ["omniwmctl"] + invocation)) { error in
+            XCTAssertThrowsError(try CLIParser.parse(arguments: ["greedlessctl"] + invocation)) { error in
                 XCTAssertEqual(error as? CLIParseError, .usage(CLIParser.usageText))
             }
         }
     }
 
     func testHelpAndCompletionsExposeWindowMove() {
-        XCTAssertTrue(CLIParser.usageText.contains("omniwmctl window move-to-workspace <opaque-id> <workspace>"))
+        XCTAssertTrue(CLIParser.usageText.contains("greedlessctl window move-to-workspace <opaque-id> <workspace>"))
 
         for shell in CLIShell.allCases {
             XCTAssertTrue(CLICompletionGenerator.script(for: shell).contains("move-to-workspace"))
@@ -93,7 +93,7 @@ final class WindowMoveIPCContractTests: XCTestCase {
     }
 
     private func parseWindowRequest(_ arguments: [String]) throws -> IPCWindowRequest {
-        let parsed = try CLIParser.parse(arguments: ["omniwmctl"] + arguments)
+        let parsed = try CLIParser.parse(arguments: ["greedlessctl"] + arguments)
         guard case let .window(request) = parsed.request.payload else {
             throw TestFailure.unexpectedPayload
         }

@@ -1,9 +1,7 @@
-# Security Policy
+# Security policy
 
-## Supported versions
+Greedless Manager is an early GPL-2.0-only fork of OmniWM. Security work targets the current `greedless` branch; no maintenance commitment is made for older snapshots.
 
-Security fixes ship in the latest release on the [Releases page](https://github.com/OmniNull/OmniWM/releases). Older versions are not patched.
+Report vulnerabilities privately through [this repository's private vulnerability reporting](https://github.com/rbtbuilds/greedless-manager/security/advisories/new). Include the Greedless Manager version or commit, macOS version, and a minimal reproduction. Remove credentials, personal window titles, and private documents from evidence. Do not send fork-specific reports to OmniWM's maintainers.
 
-## Reporting a vulnerability
-
-Report vulnerabilities privately through [GitHub private vulnerability reporting](https://github.com/OmniNull/OmniWM/security/advisories/new) rather than a public issue. Include the OmniWM and macOS versions and the steps to reproduce. You will get an acknowledgement in the advisory thread, and the fix is coordinated there before disclosure. There is no bug bounty.
+The app requires Accessibility and Input Monitoring for window management. Screen Recording is optional. Local builds are ad-hoc signed; this project does not currently distribute a notarized installer. There is no bug bounty or guaranteed response time.

@@ -3,23 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDisplayName</key>
-	<string>OmniWM</string>
+	<string>Greedless Manager</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
 	<string>OmniWM</string>
 	<key>CFBundleIconFile</key>
-	<string>AppIcon</string>
+	<string>GreedlessIcon</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.barut.OmniWM</string>
+	<string>org.greedless.manager</string>
 	<key>CFBundleName</key>
-	<string>OmniWM</string>
+	<string>Greedless Manager</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.7.6</string>
+	<string>0.1.0</string>
 	<key>CFBundleVersion</key>
-	<string>88</string>
+	<string>1</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>26.0</string>
 	<key>LSUIElement</key>
@@ -27,10 +27,10 @@
 	<key>NSHighResolutionCapable</key>
 	<true/>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>A program running within OmniWM's Quake Terminal would like to use your microphone.</string>
+	<string>A program running within Greedless Manager's Quake Terminal would like to use your microphone.</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>NSScreenCaptureUsageDescription</key>
-	<string>OmniWM uses screen capture for Overview thumbnails, window drag previews, and Hidden Bar icons.</string>
+	<string>Greedless Manager uses screen capture for Overview thumbnails, window drag previews, and Hidden Bar icons.</string>
 </dict>
 </plist>

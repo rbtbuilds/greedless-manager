@@ -107,32 +107,23 @@ check_framework() {
 }
 
 check_signing() {
-  local identity="${OMNIWM_SIGNING_IDENTITY:-OmniWM Dev}"
-  if security find-identity -v -p codesigning 2>/dev/null | awk -v identity="$identity" '$2 == identity || index($0, "\"" identity "\"") { found = 1 } END { exit !found }'; then
-    echo "Development signing identity: $identity"
-  else
-    echo "warning: No code-signing identity named \"$identity\". Dev will use ad-hoc signing; the optional local certificate helps retain permissions across rebuilds." >&2
-  fi
+  echo "Local builds use ad-hoc signing. Distribution signing requires explicit GREEDLESS_SIGNING_IDENTITY and GREEDLESS_NOTARIZE_PROFILE."
 }
 
 print_paths() {
   local config_base="${XDG_CONFIG_HOME:-$HOME/.config}"
   local state_base="${XDG_STATE_HOME:-$HOME/.local/state}"
-  local dev_app="${OMNIWM_DEV_INSTALL_DIR:-$HOME/Applications}/${OMNIWM_DEV_APP_NAME:-OmniWM Dev}.app"
-  local release_app="${OMNIWM_RELEASE_APP:-/Applications/OmniWM.app}" app
+  local app="$ROOT_DIR/dist/${GREEDLESS_APP_NAME:-Greedless Manager}.app"
   case "$config_base" in /*) ;; *) config_base="$HOME/.config" ;; esac
   case "$state_base" in /*) ;; *) state_base="$HOME/.local/state" ;; esac
   echo "Development tools: $BIN_DIR"
-  echo "Release settings: $config_base/omniwm/settings.toml"
-  echo "Dev settings: $config_base/omniwm-dev/settings.toml"
-  echo "Dev state: $state_base/omniwm-dev"
-  for app in "$dev_app" "$release_app"; do
-    if [ -d "$app" ]; then
-      echo "Installed app: $app"
-    else
-      echo "App not installed: $app"
-    fi
-  done
+  echo "Settings: $config_base/greedless-manager/settings.toml"
+  echo "State: $state_base/greedless-manager"
+  if [ -d "$app" ]; then
+    echo "Local app: $app"
+  else
+    echo "App not built: $app"
+  fi
 }
 
 has_digest() {
